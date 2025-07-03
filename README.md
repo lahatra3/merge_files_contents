@@ -1,4 +1,7 @@
-# mergefile
+# mergefiles
+
+**` mergefiles `** is a tool for merging the contents of files in a directory into a single file.
+
 
 To install dependencies:
 
