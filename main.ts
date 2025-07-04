@@ -46,9 +46,9 @@ const mergeFileContents = async (file_paths: Array<string>, sink_file_path: stri
        const [key, value] = current_value.split("=");
        accumulator[key] = value;
        return accumulator;
-    }, {});
+    }, {});    
  
-    if (!args_config['--ext'] || !args_config['--dir'] || !args_config['--dest']) {
+    if (!args_config['--dir'] || !args_config['--dest']) {
        throw Error(`Missing arguments...
        Help: 
           $ ~ mergefiles --ext=".txt" --dir="/directory_path" --dest="file_destination"
@@ -56,7 +56,7 @@ const mergeFileContents = async (file_paths: Array<string>, sink_file_path: stri
        );
     }
  
-    const [ directory_path, is_dir] = [
+    const [directory_path, is_dir] = [
        resolve(args_config['--dir']),
        await exists(args_config['--dir'])
     ];
@@ -69,6 +69,11 @@ const mergeFileContents = async (file_paths: Array<string>, sink_file_path: stri
     const source_file_paths = directory
        .filter((source_file) => source_file.trim().endsWith(args_config['--ext']!))
        .map((source_file) => resolve(directory_path, source_file));
+
+    if (source_file_paths.length < 1) {
+        console.log(`${styleText(['yellow', 'bold'], 'No files detected...')}`);
+        return;
+    }
        
     const sink_file_path = resolve(args_config['--dest']);
     
